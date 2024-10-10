@@ -55,6 +55,13 @@ export default function Home() {
             <p className="pokemon-id">
               #{pokemon.id.toString().padStart(3, "0")}
             </p>
+            <div className="types">
+              {pokemon.types.map((type) => (
+                <span key={type.type.name} className={`type ${type.type.name}`}>
+                  {type.type.name}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </div>
