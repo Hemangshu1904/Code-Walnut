@@ -39,7 +39,17 @@ export default function Home() {
             Search
           </button>
         </div>
+
         {error && <p className="error">{error}</p>}
+
+        {pokemon && (
+          <div className="pokemon-card">
+            <h2 className="pokemon-name">{pokemon.name}</h2>
+            <p className="pokemon-id">
+              #{pokemon.id.toString().padStart(3, "0")}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
