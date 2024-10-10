@@ -53,6 +53,7 @@ export default function Home() {
             className="search-input"
           />
           <button
+            type="button"
             onClick={searchPokemon}
             disabled={loading}
             className="search-button"
@@ -91,7 +92,7 @@ export default function Home() {
                     <div
                       className="stat-bar"
                       style={{ width: `${(stat.base_stat / 255) * 100}%` }}
-                    ></div>
+                    />
                   </div>
                   <span className="stat-value">{stat.base_stat}</span>
                 </div>
