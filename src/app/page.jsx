@@ -44,6 +44,13 @@ export default function Home() {
 
         {pokemon && (
           <div className="pokemon-card">
+            <div className="pokemon-image-container">
+              <img
+                src={pokemon.sprites.other["official-artwork"].front_default}
+                alt={pokemon.name}
+                className="pokemon-image"
+              />
+            </div>
             <h2 className="pokemon-name">{pokemon.name}</h2>
             <p className="pokemon-id">
               #{pokemon.id.toString().padStart(3, "0")}
