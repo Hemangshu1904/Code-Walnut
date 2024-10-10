@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [pokemon, setPokemon] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const searchPokemon = async () => {
+    if (!search.trim()) return;
+    setLoading(true);
     setError("");
     setPokemon(null);
 
@@ -20,13 +23,27 @@ export default function Home() {
       setPokemon(data);
     } catch (err) {
       setError("Pokémon not found. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        searchPokemon();
+      }
+    };
+    document.addEventListener("keypress", handleKeyPress);
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [search]);
 
   return (
     <div className="container">
       <div className="content">
-        <h1 className="title">Poké Walnut</h1>
+        <h1 className="title">Pokédex</h1>
         <div className="search-container">
           <input
             type="text"
@@ -35,8 +52,12 @@ export default function Home() {
             placeholder="Enter Pokémon name or ID"
             className="search-input"
           />
-          <button onClick={searchPokemon} className="search-button">
-            Search
+          <button
+            onClick={searchPokemon}
+            disabled={loading}
+            className="search-button"
+          >
+            {loading ? "Searching..." : "Search"}
           </button>
         </div>
 
@@ -60,6 +81,20 @@ export default function Home() {
                 <span key={type.type.name} className={`type ${type.type.name}`}>
                   {type.type.name}
                 </span>
+              ))}
+            </div>
+            <div className="stats">
+              {pokemon.stats.map((stat) => (
+                <div key={stat.stat.name} className="stat">
+                  <span className="stat-name">{stat.stat.name}</span>
+                  <div className="stat-bar-container">
+                    <div
+                      className="stat-bar"
+                      style={{ width: `${(stat.base_stat / 255) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="stat-value">{stat.base_stat}</span>
+                </div>
               ))}
             </div>
           </div>
